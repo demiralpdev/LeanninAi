@@ -14,3 +14,4 @@
 - [weekly-2026-w27.md](./weekly-2026-w27.md) - generated 2026-07-05
 - [weekly-2026-w28.md](./weekly-2026-w28.md) - generated 2026-07-12
 - [weekly-2026-w29.md](./weekly-2026-w29.md) - generated 2026-07-19
+- [weekly-2026-w30.md](./weekly-2026-w30.md) - generated 2026-07-26
