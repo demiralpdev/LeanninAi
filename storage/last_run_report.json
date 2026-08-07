@@ -1,16 +1,16 @@
 {
   "status": "ok",
-  "started_at": "2026-08-06T02:54:04+00:00",
+  "started_at": "2026-08-07T02:51:04+00:00",
   "dry_run": false,
   "snapshot_delta": {
     "raw_changed": 0,
     "wiki_changed": 0
   },
   "stats": {
-    "collected": 102,
-    "skipped_unchanged": 41,
+    "collected": 94,
+    "skipped_unchanged": 21,
     "skipped_duplicate": 0,
-    "rejected_quality": 61,
+    "rejected_quality": 73,
     "drafted": 0,
     "errors": 0
   },
@@ -59,6 +59,6 @@
     "generated": false,
     "reason": "not_scheduled_day",
     "run_day_of_week": 6,
-    "today_weekday": 3
+    "today_weekday": 4
   }
 }
