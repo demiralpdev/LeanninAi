@@ -254,7 +254,7 @@ class BrainEnhancer:
             headers={
                 "Authorization": f"Bearer {self.api_key}",
                 "Content-Type": "application/json",
-                "HTTP-Referer": "https://github.com/univerisr-ai/LeanninAi",
+                "HTTP-Referer": "https://github.com/demiralpdev/LeanninAi",
                 "X-Title": "AiBeyin-Enhancer",
             },
             method="POST",
