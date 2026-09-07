@@ -1,5 +1,9 @@
 import datetime as dt
 import json
+import os
+import sys
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -10,12 +14,36 @@ from .utils import now_utc_iso, sha256_text, strip_html
 
 
 USER_AGENT = "AiBeyinBot/0.1 (+https://openrouter.ai)"
+GITHUB_API_VERSION = "2022-11-28"
+# Rate limit/gecici ag hatalarinda denenecek bekleme sureleri (saniye)
+_RETRY_BACKOFF_SECONDS = (2, 5, 10)
 
 
 def _http_get(url: str, timeout_seconds: int = 30) -> str:
-    request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
-    with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
-        return response.read().decode("utf-8", errors="ignore")
+    headers = {"User-Agent": USER_AGENT}
+    if urllib.parse.urlsplit(url).hostname == "api.github.com":
+        token = os.getenv("GITHUB_TOKEN") or os.getenv("GH_TOKEN")
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+            headers["Accept"] = "application/vnd.github+json"
+            headers["X-GitHub-Api-Version"] = GITHUB_API_VERSION
+
+    last_error = None
+    for delay in (0,) + _RETRY_BACKOFF_SECONDS:
+        if delay:
+            time.sleep(delay)
+        try:
+            request = urllib.request.Request(url, headers=headers)
+            with urllib.request.urlopen(request, timeout=timeout_seconds) as response:
+                return response.read().decode("utf-8", errors="ignore")
+        except urllib.error.HTTPError as exc:
+            last_error = exc
+            if exc.code not in (403, 429):
+                raise
+        except urllib.error.URLError as exc:
+            last_error = exc
+
+    raise last_error
 
 
 def collect_sources(config: Dict) -> List[SourceItem]:
@@ -46,8 +74,15 @@ def _collect_github_repos(cfg: Dict) -> List[SourceItem]:
         f"?q={encoded_query}&sort=stars&order=desc&per_page={limit}"
     )
 
-    raw = _http_get(url)
-    payload = json.loads(raw)
+    try:
+        raw = _http_get(url)
+        payload = json.loads(raw)
+    except Exception as exc:
+        # Yeniden denemelerden sonra da basarisiz oldu (orn. rate limit);
+        # pipeline'i kirmadan bu kaynagi atla.
+        print(f"[sources] github_repos: veri alinamadi, atlaniyor -> {exc}", file=sys.stderr)
+        return []
+
     repos = payload.get("items", [])
     items: List[SourceItem] = []
 
