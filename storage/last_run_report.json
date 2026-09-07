@@ -1,16 +1,16 @@
 {
   "status": "ok",
-  "started_at": "2026-09-07T03:50:01+00:00",
+  "started_at": "2026-09-07T18:30:32+00:00",
   "dry_run": false,
   "snapshot_delta": {
     "raw_changed": 0,
-    "wiki_changed": 2
+    "wiki_changed": 0
   },
   "stats": {
-    "collected": 108,
-    "skipped_unchanged": 42,
+    "collected": 95,
+    "skipped_unchanged": 36,
     "skipped_duplicate": 0,
-    "rejected_quality": 66,
+    "rejected_quality": 59,
     "drafted": 0,
     "errors": 0
   },
