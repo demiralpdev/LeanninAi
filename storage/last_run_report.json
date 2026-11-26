@@ -1,14 +1,14 @@
 {
   "status": "ok",
-  "started_at": "2026-11-25T07:48:12+00:00",
+  "started_at": "2026-11-26T07:39:13+00:00",
   "dry_run": false,
   "snapshot_delta": {
     "raw_changed": 0,
     "wiki_changed": 0
   },
   "stats": {
-    "collected": 110,
-    "skipped_unchanged": 33,
+    "collected": 105,
+    "skipped_unchanged": 28,
     "skipped_duplicate": 0,
     "rejected_quality": 77,
     "drafted": 0,
@@ -59,6 +59,6 @@
     "generated": false,
     "reason": "not_scheduled_day",
     "run_day_of_week": 6,
-    "today_weekday": 2
+    "today_weekday": 3
   }
 }
